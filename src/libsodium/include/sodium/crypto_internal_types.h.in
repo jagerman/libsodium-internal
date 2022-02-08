@@ -7,7 +7,7 @@
 #if @HAVE_TI_MODE_V@ == 1
 typedef uint64_t fe25519[5];
 #else
-typedef uint32_t fe25519[10];
+typedef int32_t fe25519[10];
 #endif
 
 #endif
