@@ -20610,7 +20610,7 @@ then :
 
 fi
 
-ac_config_files="$ac_config_files Makefile builds/Makefile contrib/Makefile dist-build/Makefile libsodium.pc libsodium-uninstalled.pc msvc-scripts/Makefile src/Makefile src/libsodium/Makefile src/libsodium/include/Makefile src/libsodium/include/sodium/version.h test/default/Makefile test/Makefile"
+ac_config_files="$ac_config_files Makefile builds/Makefile contrib/Makefile dist-build/Makefile libsodium.pc libsodium-uninstalled.pc msvc-scripts/Makefile src/Makefile src/libsodium/Makefile src/libsodium/include/Makefile src/libsodium/include/sodium/version.h src/libsodium/include/sodium/crypto_internal_types.h test/default/Makefile test/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -21685,6 +21685,7 @@ do
     "src/libsodium/Makefile") CONFIG_FILES="$CONFIG_FILES src/libsodium/Makefile" ;;
     "src/libsodium/include/Makefile") CONFIG_FILES="$CONFIG_FILES src/libsodium/include/Makefile" ;;
     "src/libsodium/include/sodium/version.h") CONFIG_FILES="$CONFIG_FILES src/libsodium/include/sodium/version.h" ;;
+    "src/libsodium/include/sodium/crypto_internal_types.h") CONFIG_FILES="$CONFIG_FILES src/libsodium/include/sodium/crypto_internal_types.h" ;;
     "test/default/Makefile") CONFIG_FILES="$CONFIG_FILES test/default/Makefile" ;;
     "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
 

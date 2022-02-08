@@ -24,6 +24,7 @@ SODIUM_EXPORT = \
 	sodium/crypto_hash.h \
 	sodium/crypto_hash_sha256.h \
 	sodium/crypto_hash_sha512.h \
+	sodium/crypto_internal_fe25519.h \
 	sodium/crypto_kdf.h \
 	sodium/crypto_kdf_blake2b.h \
 	sodium/crypto_kx.h \
@@ -64,9 +65,11 @@ SODIUM_EXPORT = \
 	sodium/utils.h
 
 EXTRA_SRC = $(SODIUM_EXPORT) \
+	sodium/crypto_internal_types.h.in \
 	sodium/version.h.in
 
 nobase_include_HEADERS = $(SODIUM_EXPORT)
 
 nobase_nodist_include_HEADERS = \
+	sodium/crypto_internal_types.h \
 	sodium/version.h

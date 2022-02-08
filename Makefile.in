@@ -111,7 +111,8 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES = libsodium.pc libsodium-uninstalled.pc \
-	src/libsodium/include/sodium/version.h
+	src/libsodium/include/sodium/version.h \
+	src/libsodium/include/sodium/crypto_internal_types.h
 CONFIG_CLEAN_VPATH_FILES =
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -203,6 +204,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in \
 	$(top_srcdir)/build-aux/install-sh \
 	$(top_srcdir)/build-aux/ltmain.sh \
 	$(top_srcdir)/build-aux/missing \
+	$(top_srcdir)/src/libsodium/include/sodium/crypto_internal_types.h.in \
 	$(top_srcdir)/src/libsodium/include/sodium/version.h.in \
 	AUTHORS ChangeLog THANKS build-aux/compile \
 	build-aux/config.guess build-aux/config.sub build-aux/depcomp \
@@ -480,6 +482,8 @@ libsodium.pc: $(top_builddir)/config.status $(srcdir)/libsodium.pc.in
 libsodium-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/libsodium-uninstalled.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 src/libsodium/include/sodium/version.h: $(top_builddir)/config.status $(top_srcdir)/src/libsodium/include/sodium/version.h.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+src/libsodium/include/sodium/crypto_internal_types.h: $(top_builddir)/config.status $(top_srcdir)/src/libsodium/include/sodium/crypto_internal_types.h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 mostlyclean-libtool:
