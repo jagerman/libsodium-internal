@@ -23,7 +23,7 @@ if(POLICY CMP0077)
     cmake_policy(SET CMP0077 NEW)
 endif()
 
-project("sodium-internal" LANGUAGES C)
+project(libsodium-internal LANGUAGES C ASM)
 
 option(SODIUM_MINIMAL "Only compile the minimum set of functions required for the high-level API" OFF)
 option(SODIUM_ENABLE_BLOCKING_RANDOM "Enable this switch only if /dev/urandom is totally broken on the target platform" OFF)
@@ -73,6 +73,7 @@ add_library(${PROJECT_NAME}
     src/libsodium/crypto_hash/sha256/hash_sha256.c
     src/libsodium/crypto_hash/sha512/cp/hash_sha512_cp.c
     src/libsodium/crypto_hash/sha512/hash_sha512.c
+    src/libsodium/crypto_internal/fe25519.c
     src/libsodium/crypto_kdf/blake2b/kdf_blake2b.c
     src/libsodium/crypto_kdf/crypto_kdf.c
     src/libsodium/crypto_kx/crypto_kx.c
@@ -116,9 +117,8 @@ add_library(${PROJECT_NAME}
     src/libsodium/crypto_scalarmult/curve25519/sandy2x/fe51_namespace.h
     src/libsodium/crypto_scalarmult/curve25519/sandy2x/fe_frombytes_sandy2x.c
     src/libsodium/crypto_scalarmult/curve25519/sandy2x/ladder.h
-    src/libsodium/crypto_scalarmult/curve25519/sandy2x/ladder_base.h
-    src/libsodium/crypto_scalarmult/curve25519/sandy2x/ladder_base_namespace.h
     src/libsodium/crypto_scalarmult/curve25519/sandy2x/ladder_namespace.h
+    src/libsodium/crypto_scalarmult/curve25519/sandy2x/sandy2x.S
     src/libsodium/crypto_scalarmult/curve25519/scalarmult_curve25519.c
     src/libsodium/crypto_scalarmult/curve25519/scalarmult_curve25519.h
     src/libsodium/crypto_secretbox/crypto_secretbox.c
@@ -154,6 +154,7 @@ add_library(${PROJECT_NAME}
     src/libsodium/crypto_stream/salsa20/stream_salsa20.h
     src/libsodium/crypto_stream/salsa20/xmm6/salsa20_xmm6.c
     src/libsodium/crypto_stream/salsa20/xmm6/salsa20_xmm6.h
+    src/libsodium/crypto_stream/salsa20/xmm6/salsa20_xmm6-asm.S
     src/libsodium/crypto_stream/salsa20/xmm6int/salsa20_xmm6int-avx2.c
     src/libsodium/crypto_stream/salsa20/xmm6int/salsa20_xmm6int-avx2.h
     src/libsodium/crypto_stream/salsa20/xmm6int/salsa20_xmm6int-sse2.c
@@ -298,6 +299,9 @@ target_compile_definitions(${PROJECT_NAME}
         $<$<C_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
 )
 
+include(./features.cmake)
+
+
 # Variables that need to be exported to version.h.in
 set(VERSION 1.0.18)
 set(SODIUM_LIBRARY_VERSION_MAJOR 10)
@@ -309,4 +313,21 @@ endif()
 configure_file(
     src/libsodium/include/sodium/version.h.in
     ${CMAKE_CURRENT_SOURCE_DIR}/src/libsodium/include/sodium/version.h
+)
+
+if(HAVE_TI_MODE)
+    set(HAVE_TI_MODE_V 1)
+else()
+    set(HAVE_TI_MODE_V 0)
+endif()
+configure_file(
+    src/libsodium/include/sodium/crypto_internal_types.h.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/libsodium/include/sodium/crypto_internal_types.h
+)
+
+add_library(libsodium::libsodium-internal ALIAS ${PROJECT_NAME})
+export(
+    TARGETS libsodium-internal
+    NAMESPACE libsodium::
+    FILE libsodiumInternalTargets.cmake
 )
