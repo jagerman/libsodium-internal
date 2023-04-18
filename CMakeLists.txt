@@ -25,10 +25,12 @@ endif()
 
 project(libsodium-internal LANGUAGES C ASM)
 
+set(LIB_NAME sodium-internal)
+
 option(SODIUM_MINIMAL "Only compile the minimum set of functions required for the high-level API" OFF)
 option(SODIUM_ENABLE_BLOCKING_RANDOM "Enable this switch only if /dev/urandom is totally broken on the target platform" OFF)
 
-add_library(${PROJECT_NAME}
+add_library(${LIB_NAME}
     src/libsodium/crypto_aead/aes256gcm/aesni/aead_aes256gcm_aesni.c
     src/libsodium/crypto_aead/chacha20poly1305/sodium/aead_chacha20poly1305.c
     src/libsodium/crypto_aead/xchacha20poly1305/sodium/aead_xchacha20poly1305.c
@@ -247,7 +249,7 @@ add_library(${PROJECT_NAME}
 )
 
 if(NOT SODIUM_MINIMAL)
-    target_sources(${PROJECT_NAME}
+    target_sources(${LIB_NAME}
         PRIVATE
             src/libsodium/crypto_box/curve25519xchacha20poly1305/box_curve25519xchacha20poly1305.c
             src/libsodium/crypto_box/curve25519xchacha20poly1305/box_seal_curve25519xchacha20poly1305.c
@@ -275,19 +277,19 @@ if(NOT SODIUM_MINIMAL)
     )
 endif()
 
-set_target_properties(${PROJECT_NAME}
+set_target_properties(${LIB_NAME}
     PROPERTIES
         C_STANDARD 99
 )
 
-target_include_directories(${PROJECT_NAME}
+target_include_directories(${LIB_NAME}
     PUBLIC
         src/libsodium/include
     PRIVATE
         src/libsodium/include/sodium
 )
 
-target_compile_definitions(${PROJECT_NAME}
+target_compile_definitions(${LIB_NAME}
     PUBLIC
         $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:SODIUM_STATIC>
         $<$<BOOL:${SODIUM_MINIMAL}>:SODIUM_LIBRARY_MINIMAL>
@@ -325,9 +327,9 @@ configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/src/libsodium/include/sodium/crypto_internal_types.h
 )
 
-add_library(libsodium::libsodium-internal ALIAS ${PROJECT_NAME})
+add_library(libsodium::${LIB_NAME} ALIAS ${LIB_NAME})
 export(
-    TARGETS libsodium-internal
+    TARGETS ${LIB_NAME}
     NAMESPACE libsodium::
     FILE libsodiumInternalTargets.cmake
 )

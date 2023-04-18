@@ -2,7 +2,7 @@ include(TestBigEndian)
 
 TEST_BIG_ENDIAN(NATIVE_BIG_ENDIAN)
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<NOT:$<BOOL:${NATIVE_BIG_ENDIAN}>>:NATIVE_LITTLE_ENDIAN>)
+target_compile_definitions(${LIB_NAME} PRIVATE $<$<NOT:$<BOOL:${NATIVE_BIG_ENDIAN}>>:NATIVE_LITTLE_ENDIAN>)
 
 include(CheckCSourceCompiles)
 
@@ -17,7 +17,7 @@ endif()
 
 function(check_for_definition DEFINE src)
     check_c_source_compiles("${src}" ${DEFINE})
-    target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<BOOL:${${DEFINE}}>:${DEFINE}>)
+    target_compile_definitions(${LIB_NAME} PRIVATE $<$<BOOL:${${DEFINE}}>:${DEFINE}>)
 endfunction()
 
 check_for_definition(HAVE_TI_MODE [[
