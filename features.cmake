@@ -20,7 +20,12 @@ function(check_for_definition DEFINE src)
     target_compile_definitions(${LIB_NAME} PRIVATE $<$<BOOL:${${DEFINE}}>:${DEFINE}>)
 endfunction()
 
-check_for_definition(HAVE_TI_MODE [[
+function(check_for_public_definition DEFINE src)
+    check_c_source_compiles("${src}" ${DEFINE})
+    target_compile_definitions(${LIB_NAME} PUBLIC $<$<BOOL:${${DEFINE}}>:${DEFINE}>)
+endfunction()
+
+check_for_public_definition(HAVE_TI_MODE [[
 #if !defined(__clang__) && !defined(__GNUC__) && !defined(__SIZEOF_INT128__)
 # error mode(TI) is a gcc extension, and __int128 is not available
 #endif

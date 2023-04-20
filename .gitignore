@@ -75,7 +75,6 @@ man/Makefile.in
 missing
 src/libsodium/*.def
 src/libsodium/include/sodium/version.h
-src/libsodium/include/sodium/crypto_internal_types.h
 stamp-*
 test-driver
 test/default/*.asm.js

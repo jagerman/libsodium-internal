@@ -191,6 +191,7 @@ add_library(${LIB_NAME}
     src/libsodium/include/sodium/crypto_hash.h
     src/libsodium/include/sodium/crypto_hash_sha256.h
     src/libsodium/include/sodium/crypto_hash_sha512.h
+    src/libsodium/include/sodium/crypto_internal_types.h
     src/libsodium/include/sodium/crypto_kdf.h
     src/libsodium/include/sodium/crypto_kdf_blake2b.h
     src/libsodium/include/sodium/crypto_kx.h
@@ -315,16 +316,6 @@ endif()
 configure_file(
     src/libsodium/include/sodium/version.h.in
     ${CMAKE_CURRENT_SOURCE_DIR}/src/libsodium/include/sodium/version.h
-)
-
-if(HAVE_TI_MODE)
-    set(HAVE_TI_MODE_V 1)
-else()
-    set(HAVE_TI_MODE_V 0)
-endif()
-configure_file(
-    src/libsodium/include/sodium/crypto_internal_types.h.in
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/libsodium/include/sodium/crypto_internal_types.h
 )
 
 add_library(libsodium::${LIB_NAME} ALIAS ${LIB_NAME})

@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 
-#if @HAVE_TI_MODE_V@ == 1
+#ifdef HAVE_TI_MODE
 typedef uint64_t fe25519[5];
 #else
 typedef int32_t fe25519[10];
